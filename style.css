@@ -1,0 +1,412 @@
+body {
+  /* Dark, deep background for the entire page */
+  background: linear-gradient(120deg, #0a0a1a, #1a1a2e); /* Very dark blue to dark blue */
+  color: #e0e0e0; /* Light text for contrast */
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align items to the start (top) of the viewport */
+  min-height: 100vh; /* Full viewport height */
+  margin: 0;
+  overflow-x: hidden; /* Prevent horizontal scrollbar */
+  overflow-y: auto; /* Allow vertical scrolling for the whole page */
+  position: relative;
+  padding: 40px 20px; /* Add some padding to the body for content not to stick to edges */
+  box-sizing: border-box; /* Include padding in element's total width and height */
+}
+
+/* Subtle background particles/glow effect (optional, but enhances the Builder.io feel) */
+body::before {
+  content: '';
+  position: fixed; /* Keep background effect fixed */
+  top: -50px;
+  left: -50px;
+  right: -50px;
+  bottom: -50px;
+  background: radial-gradient(circle at 10% 20%, rgba(0, 123, 255, 0.1) 0%, transparent 40%),
+              radial-gradient(circle at 90% 80%, rgba(138, 43, 226, 0.1) 0%, transparent 40%);
+  z-index: -1;
+  animation: backgroundPulse 15s infinite alternate ease-in-out;
+}
+
+@keyframes backgroundPulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.1); opacity: 1; }
+}
+
+.container {
+  /* Main wrapper for the entire app content */
+  background: rgba(18, 18, 30, 0.9); /* Slightly less transparent dark blue */
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 0 50px rgba(0, 123, 255, 0.4), 0 0 80px rgba(138, 43, 226, 0.2); /* Dual color glow */
+  text-align: center;
+  width: 100%;
+  max-width: 900px; /* Increased max-width to accommodate horizontal city grid */
+  border: 1px solid rgba(0, 123, 255, 0.3); /* Subtle blue border */
+  position: relative;
+  z-index: 1; /* Ensure container is above background effects */
+  animation: fadeInContainer 1s ease-out forwards;
+}
+
+@keyframes fadeInContainer {
+  0% { opacity: 0; transform: translateY(50px) scale(0.9); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+h1 {
+  font-size: 2.8em;
+  margin-bottom: 30px;
+  color: #ffffff; /* Pure white heading */
+  text-shadow: 0 0 15px rgba(0, 123, 255, 0.6); /* Soft blue glow for title */
+  animation: pulseText 2s infinite alternate;
+}
+
+@keyframes pulseText {
+  0% { text-shadow: 0 0 10px rgba(0, 123, 255, 0.6); }
+  100% { text-shadow: 0 0 20px rgba(0, 123, 255, 0.9); }
+}
+
+/* --- Search Bar Section --- */
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px; /* Space below search bar */
+  gap: 10px; /* Space between input and button */
+}
+
+#search-input {
+  flex-grow: 1; /* Allow input to take available space */
+  max-width: 350px; /* Normal-sized input */
+  padding: 15px 20px;
+  border: 1px solid rgba(0, 123, 255, 0.4); /* Blue border */
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.08); /* Slightly transparent background */
+  color: #ffffff;
+  font-size: 1.1em;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+#search-input::placeholder {
+  color: #b0b0b0; /* Muted placeholder text */
+}
+
+#search-input:focus {
+  outline: none;
+  border-color: #007bff; /* Brighter blue on focus */
+  box-shadow: 0 0 15px rgba(0, 123, 255, 0.6), inset 0 2px 5px rgba(0, 0, 0, 0.4);
+  background-color: rgba(255, 255, 255, 0.12); /* Slightly lighter on focus */
+}
+
+.search-container button { /* Styling for the Search button */
+  padding: 15px 25px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #007bff, #8a2be2); /* Blue to Amethyst */
+  color: white;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.search-container button:hover {
+  background: linear-gradient(90deg, #0056b3, #6a11cb); /* Darker gradient on hover */
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0, 123, 255, 0.6), 0 0 30px rgba(138, 43, 226, 0.4); /* Dual color glow */
+}
+
+/* --- Weather Result Section (for search results) --- */
+#weather-result {
+  margin-top: 20px;
+  padding: 25px; /* Adjust padding for a cleaner look */
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.05); /* Very subtle transparent background */
+  border: 1px solid rgba(0, 123, 255, 0.1); /* Lighter border */
+  box-shadow: 0 0 20px rgba(0, 123, 255, 0.2); /* Soft blue glow */
+  margin-bottom: 40px; /* Space below search result */
+  /* Ensure it's hidden by default, and can be unhidden by JS */
+  display: none; /* Initially hidden */
+  opacity: 0; /* For fade-in animation */
+  transform: translateY(20px); /* For fade-in animation */
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Smooth transition */
+  text-align: center; /* Center content within result div */
+  max-height: 450px; /* Max height for scrollability */
+  overflow-y: auto; /* Enable scrolling */
+  scrollbar-color: #33334f #1a1a2e; /* For Firefox scrollbar */
+  scrollbar-width: thin;
+}
+
+/* Class for showing the weather result */
+#weather-result:not(.hidden) {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Custom scrollbar for Webkit browsers for #weather-result */
+#weather-result::-webkit-scrollbar {
+  width: 8px;
+}
+
+#weather-result::-webkit-scrollbar-track {
+  background: #1a1a2e; /* Dark track */
+  border-radius: 10px;
+}
+
+#weather-result::-webkit-scrollbar-thumb {
+  background: #33334f; /* Darker thumb */
+  border-radius: 10px;
+  border: 2px solid #1a1a2e; /* Border to match track */
+}
+
+#weather-result::-webkit-scrollbar-thumb:hover {
+  background: #44446a; /* Slightly lighter thumb on hover */
+}
+
+/* Shared styles for elements inside #weather-result (no #weatherInfo anymore) */
+#weather-result h2 { /* For city name inside #weather-result */
+  font-size: 2.2em;
+  color: #ffffff;
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px rgba(0, 123, 255, 0.4);
+}
+
+#weather-result img { /* For weather icon inside #weather-result */
+  width: 100px;
+  height: 100px;
+  margin: 15px auto;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3)); /* White glow for icon */
+}
+
+#weather-result #temperature {
+  font-size: 3.5em;
+  font-weight: bold;
+  color: #00e676; /* Vibrant green for temperature */
+  margin: 10px 0;
+  text-shadow: 0 0 15px rgba(0, 230, 118, 0.5);
+}
+
+#weather-result #description {
+  font-size: 1.4em;
+  color: #b0b0b0;
+  text-transform: capitalize;
+  margin-bottom: 15px;
+}
+
+#weather-result #humidity, #weather-result #wind, #weather-result #aqi {
+  font-size: 1.1em;
+  color: #b0b0b0;
+  margin: 8px 0;
+  display: flex; /* Use flex for individual lines to center content */
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* Space between emoji and text */
+}
+
+#weather-result #aqi {
+  font-weight: bold;
+  color: #8a2be2; /* Purple for AQI to make it stand out */
+}
+
+.error-message {
+    color: #ff4e50; /* Reddish error message */
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 20px;
+}
+
+/* --- Forecast Section inside #weather-result --- */
+.forecast-title {
+    font-size: 1.8em;
+    color: #ffffff;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+}
+
+.forecast-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* Allow wrapping */
+    gap: 15px;
+}
+
+.forecast-day {
+    background: rgba(255, 255, 255, 0.08); /* Slightly lighter background */
+    border-radius: 12px;
+    padding: 15px;
+    width: 120px; /* Fixed width for each forecast day */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2), 0 0 8px rgba(0,123,255,0.2); /* Subtle inner & outer glow */
+}
+
+.forecast-date {
+    font-weight: bold;
+    color: #7b68ee; /* MediumSlateBlue for date */
+    margin-bottom: 5px;
+}
+
+.forecast-icon {
+    width: 50px;
+    height: 50px;
+    filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
+}
+
+.forecast-temp {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #00e676; /* Green for temperature */
+    margin: 5px 0;
+}
+
+.forecast-desc {
+    font-size: 0.9em;
+    color: #b0b0b0;
+    text-transform: capitalize;
+}
+
+
+/* --- Major Cities Section --- */
+h2.major-cities-heading { /* Specific class for this h2 */
+  font-size: 2em;
+  color: #ffffff;
+  margin-top: 40px;
+  margin-bottom: 30px;
+  text-shadow: 0 0 10px rgba(138, 43, 226, 0.5); /* Purple glow for major cities heading */
+}
+
+.city-grid {
+  display: flex; /* Arrange city sections horizontally */
+  flex-wrap: wrap; /* Allow wrapping to next line on smaller screens */
+  justify-content: center; /* Center the city sections */
+  gap: 20px; /* Space between city sections */
+  padding: 10px; /* Internal padding */
+}
+
+.city-section {
+  flex-shrink: 0; /* Prevent shrinking */
+  width: 200px; /* Fixed width for each city section */
+  background: rgba(255, 255, 255, 0.07); /* Subtle transparent background */
+  border: 1px solid rgba(138, 43, 226, 0.2); /* Purple border */
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(138, 43, 226, 0.3); /* Purple glow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex; /* Use flexbox for internal layout */
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer; /* Indicate clickability */
+}
+
+.city-section:hover {
+  transform: translateY(-8px); /* Lift effect on hover */
+  box-shadow: 0 0 25px rgba(138, 43, 226, 0.6), 0 0 40px rgba(0, 123, 255, 0.3); /* Dual glow on hover */
+}
+
+/* Styles for content *inside* each city-section (if populated by JS) */
+.city-section h3 { /* For city name inside section */
+  font-size: 1.4em;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.city-section img { /* For weather icon inside section */
+  width: 60px;
+  height: 60px;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+}
+
+.city-section p { /* For temperature, description etc. inside section */
+  font-size: 1em;
+  color: #b0b0b0;
+  margin-bottom: 5px;
+}
+
+.city-section .temp { /* Specific style for temperature in city sections */
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #00e676; /* Green for temperature */
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 30px;
+  }
+
+  .city-grid {
+    flex-direction: column; /* Stack city sections vertically on smaller screens */
+    align-items: center; /* Center them */
+  }
+
+  .city-section {
+    width: 90%; /* Make city sections wider on smaller screens */
+    max-width: 280px; /* Adjusted max-width for city sections */
+  }
+
+  h1 {
+    font-size: 2.2em;
+    margin-bottom: 20px;
+  }
+
+  .search-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  #search-input, .search-container button {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  #weather-result h2 {
+    font-size: 1.8em;
+  }
+  #weather-result #temperature {
+    font-size: 3em;
+  }
+
+  .forecast-day {
+    width: 100px; /* Make forecast days a bit smaller to fit more on mobile */
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 1.8em;
+  }
+
+  #weather-result #temperature {
+    font-size: 2.5em;
+  }
+
+  .city-section {
+    width: 100%; /* Full width on very small screens */
+  }
+
+  .forecast-grid {
+      gap: 10px; /* Reduce gap on very small screens */
+  }
+  .forecast-day {
+      width: 90px; /* Even smaller for tiny screens */
+      font-size: 0.9em;
+  }
+  .forecast-icon {
+      width: 40px;
+      height: 40px;
+  }
+}

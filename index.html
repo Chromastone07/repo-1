@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>🌤️ Weather App</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <div class="container">
+        <h1>🌤️ Weather App</h1>
+
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Enter city name...">
+            <button onclick="searchWeather()">Search</button>
+        </div>
+
+        <div id="weather-result" class="weather-section hidden">
+            </div>
+
+        <h2>Major Cities Weather</h2>
+        <div class="city-grid">
+            <div class="city-section" id="delhi-section">
+                <h3>Delhi</h3>
+                <img src="https://openweathermap.org/img/wn/01d.png" alt="clear sky">
+                <p class="temp">25°C</p>
+                <p>Clear Sky</p>
+            </div>
+            <div class="city-section" id="mumbai-section">
+                <h3>Mumbai</h3>
+                <img src="https://openweathermap.org/img/wn/10d.png" alt="rain">
+                <p class="temp">28°C</p>
+                <p>Light Rain</p>
+            </div>
+            <div class="city-section" id="bangalore-section">
+                <h3>Bengaluru</h3>
+                <img src="https://openweathermap.org/img/wn/03d.png" alt="scattered clouds">
+                <p class="temp">22°C</p>
+                <p>Scattered Clouds</p>
+            </div>
+            <div class="city-section" id="kolkata-section">
+                <h3>Kolkata</h3>
+                <img src="https://openweathermap.org/img/wn/04d.png" alt="overcast clouds">
+                <p class="temp">30°C</p>
+                <p>Overcast Clouds</p>
+            </div>
+            <div class="city-section" id="chennai-section">
+                <h3>Chennai</h3>
+                <img src="https://openweathermap.org/img/wn/02d.png" alt="few clouds">
+                <p class="temp">32°C</p>
+                <p>Few Clouds</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
